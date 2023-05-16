@@ -1,0 +1,15 @@
+#We will setup the mongoDB container and our node app container and cross connect both
+
+#1 we have mongo image available to use- 
+# ~ docker run -d --name mongodb mongo
+
+#2 --> Copy the IP address of the mongodb container (mine is 172.17.0.2)
+# ~ docker inspect mongodb
+
+#3 put this IP address instead of "host.docker.internal" in mongoDB address/URL in the node application code
+
+#4 build and run docker container for the node app
+
+#5 use postman to make api requests:
+# get ==> localhost:3000/favorites
+# post ==> localhost:3000/favorites ..etc

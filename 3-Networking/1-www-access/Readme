@@ -1,0 +1,20 @@
+1. The code has the MongoDB connection within it which will fail as we don't have mongoDB installed
+while creating the docker image, Comment out the MongoDB related code and now we will be able to 
+spin the container.
+Note: move the app.lsiten(3000) ==> out of the commented mongoDB code.
+
+2. The code also has API requests made over the internet and to run that we need the access to the 
+www from within the container ==> which we actually have without any special settings (out of the box)
+
+
+
+~ docker build -t networking:www-access .
+
+~ docker run -p 3001:3000 --name networking-access networking:www-access
+
+
+#its fine if the code did not worked in your system, it is just to demonstrate that the 
+app within the container is able to make api requests to the internet without any special settings
+
+# If you wanted to try doing this by other method==> use the os image (any) with -it interactive terminal and ping google.com
+Container OS will be able to ping google.com
