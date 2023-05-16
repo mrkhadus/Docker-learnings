@@ -1,0 +1,52 @@
+# About Application:
+It's a 3 tier app, which has frontend backend and the database.
+frontend will talk to backend and backend will talk to the database
+
+1. database mongodb should be persistent. 
+2. log data from our backend tier should also be persistent, and latest 
+source code should be updated in container as soon the changes are made.
+3. live source code for the frontend tier too.
+
+database: mongo image
+# docker run --name mongodb --rm -d -p 27017:27017 mongo
+the publish -p in above code will allow containers to forward traffic to port 27017 of host, and then from host to the mongodb container.
+
+##Containerizing the backend 
+The backend need to expose port 80 for the frontend to connect to backend. 
+build docker image and then run the container
+# ~ docker build -t app:backend .
+# ~ docker run --name backend --rm -d -p 80:80 app:backend
+
+##Containerizing the fronend
+The frontend image based on react, create a dockerfile and build the image out of it.
+#frontend source code, change fetch('http://...') ==> fetch('http://host.docker.internal/..)
+# ~ docker build -t app:frontend .
+# ~ docker run --name frontend --rm  -it -p 3000:3000 app:frontend
+#React application needs to be run in a interactive mode as the React app needs input trigger else it will immediately stop the server
+
+## till this point we are able to build all the 3 tier apps properly using containers and now we need to include the data persistence and connection betwene the containers. 
+Currently the containers connect with each other using the local host ports.
+
+#create the network 
+# ~ docker network create myNet
+
+#now run the container without specifying any port for the mongodb container but the network 
+# ~ docker run --name mongodb --rm -d --network myNet mongo
+
+#same for backend and the frontend containers
+#also in backend source code, specify the name of mongodb conatiner in the mongodb connection
+# ~ docker run --name backend --rm -d --network myNet -p 80:80 app:backend
+==> React app needs the access to the port 80 to access the backend, as React works in the browser.
+
+#frontend source code, change fetch('http://host.docker.internal...') ==> fetch('http://localhost/...) ## as the react app runs in browser and not in the server so browser is not aware of the container name
+# ~ docker run --name frontend --rm -it -p 3000:3000 app:frontend
+
+## ## ## ## ## ## ## ## ## ## ##
+1. To persist the data stored in the mongoDB, attach volume.
+mongoDB container stores the data in /data/db ==> map this to named volume 
+for the security through passwords specify the enviornment variables like
+-e MONGO_INITDB_ROOT_USERNAME=any_username -e MONGO_INITDB_ROOT_PASSWORD=Passw0rd
+in backend code ==> connection string to mongoDB shoudl specify the password and username set above
+==> 'mongodb://any_username:passw0rd@mongodb:27017/course-goals?authSource=admin'
+format = 'mongodb://username:password@mongodb-containerName:PORT/Path?authSource=admin'
+authSource=admin needed while using username and password.
