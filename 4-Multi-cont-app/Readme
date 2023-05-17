@@ -50,3 +50,8 @@ in backend code ==> connection string to mongoDB shoudl specify the password and
 ==> 'mongodb://any_username:passw0rd@mongodb:27017/course-goals?authSource=admin'
 format = 'mongodb://username:password@mongodb-containerName:PORT/Path?authSource=admin'
 authSource=admin needed while using username and password.
+
+
+# to have persistence data ==> use named volumes
+# to have persistence and live source code data ==> use bind mounts
+# passwords can be specified as enviornment variables in the Dockerfile for backend image
