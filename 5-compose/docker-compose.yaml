@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  mongodb:
+    image: mongo
+    volumes:
+      - data:/data/db # named volume name: path in the container:ro (for read only)
+    # environment:
+    #   MONGO_INITDB_ROOT_USERNAME: max # env variable: var value
+   # OR - MONGO_INITDB_ROOT_USERNAME=max  ##if - then = if no dash then : 
+    #   MONGO_INITDB_ROOT_PASSWORD: Secret
+    env_file:
+      - ./env/mongo.env #created new file under new folder env and now we can call file itself
+    networks:
+      - myNet ## No need to specify the network, docker will create the network for all the services
+              # i.e containers within this docker-compose.yml file.
+  #backend:
+
+  #frontend:

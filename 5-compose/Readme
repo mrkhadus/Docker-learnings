@@ -1,0 +1,41 @@
+# Docker compose: the multi container orchestration tool. 
+# Docker compose file is written in yaml language, file name as docker-compose.yaml
+The Docker compose file lets us build image, create multiple containers using the one document,
+We can provision and stop all the containers at the time
+
+Writing docker-compose file, 
+1st in line is "version": Define which version of compose are we using- there might be some changes to feature in each version.
+
+then "services"; where we can define containers to run or images to build (might be more at this phase I know this much only)
+
+we can define environments in the compose file or define them seperately in the .env file and call them in the compose file by
+env_file:
+  - ./filename.env
+
+specify/create the named volume==> use it for a container or across container.
+define networks==> which actually are not needed as all the services in the compose file will be set on the same network by default. (if we want them to be isolated define 'none' network.)
+
+# check docker-compose.yml file in the module 5.
+
+# To Run: to run the compose file run the command==> "docker-compose up"
+
+docker-compose up -d in detached mode
+docker-compose down ==> to take down all the containers (no volumes will be deleted)
+docker-compose down -v ==> to remove all the volumes defined in the compose file too.
+
+
+## Backend Container
+
+build image in the services sub-section
+services:
+  mongodb:
+    ---:---
+
+  backend:
+    build: ./backend #will build image from the docke rfile present in the ./backend folder specified
+    ## OR  ##
+    build:
+      context: ./backend  
+        # If we want to just have all the files from the backend folder then specify backend, if we want some files from the 5-compose folder too then we must specify the higher order
+      dockerfile: Dockerfile
+      # can specify args, ports, etc
