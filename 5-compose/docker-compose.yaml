@@ -10,9 +10,33 @@ services:
     #   MONGO_INITDB_ROOT_PASSWORD: Secret
     env_file:
       - ./env/mongo.env #created new file under new folder env and now we can call file itself
-    networks:
-      - myNet ## No need to specify the network, docker will create the network for all the services
+    # networks:
+    #   - myNet ## No need to specify the network, docker will create the network for all the services
               # i.e containers within this docker-compose.yml file.
-  #backend:
+  backend:
+    build: ./backend
+    ports:
+      - '80:80'
+    volumes:
+      - logs:/app/logs
+      - ./backend:/app
+      - /app/node_modules
+    depends_on:
+      - mongodb
 
-  #frontend:
+
+  frontend:
+    build: ./frontend
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./frontend/src:/app/src
+    stdin_open: true
+    tty: true
+    depends_on:
+      - backend
+    container_name: backend
+
+volumes:
+  data:
+  logs:
