@@ -39,3 +39,11 @@ services:
         # If we want to just have all the files from the backend folder then specify backend, if we want some files from the 5-compose folder too then we must specify the higher order
       dockerfile: Dockerfile
       # can specify args, ports, etc
+
+  # To run the docker-compose.yml file
+docker-compose up
+docker-compose up -d  (in detached mode)
+
+
+# to take down all the containers and remove all the images 
+docker-compose down  # (The volumes are not deleted by defualt)

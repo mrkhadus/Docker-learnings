@@ -1,0 +1,22 @@
+# Utility Containers:
+==> containers other than the application containers, sometimes we need to use the enviornment which is not installed in our system- we can make use of the utility container. 
+eg: we need to run node app, but our system is not configured to have node environment setup
+We can provision the node container and run the required code in the container.
+
+to run the utility containers:
+# docker build -t node-util .
+# docker run -it node-util npm install
+
+If Entry point is used: Entry-point to restrict the use of any other command than the one mentioned.
+* Add the ENTRYPOINT ["npm"] ,etc in order to run only command that starts with npm
+# docker run -it node-util install  ==> no need to specify the npm docker will append command to the entrypoint automatically for us
+
+# Docker Compose for the utility container
+
+Create the docker compose yaml file and mention all the needed volumnes, base image, etc
+
+* To run the docker-compose file for the utility container use cmd:
+# docker-compose run 
+
+* if we have multiple services in the compose file use-
+# docker-compose run service-name eg: docker-compose run npm
