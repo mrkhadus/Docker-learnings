@@ -19,4 +19,4 @@ Create the docker compose yaml file and mention all the needed volumnes, base im
 # docker-compose run 
 
 * if we have multiple services in the compose file use-
-# docker-compose run service-name eg: docker-compose run npm
+# docker-compose run service-name ==> eg: docker-compose run npm
