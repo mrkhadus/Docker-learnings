@@ -1,0 +1,11 @@
+Basic nodeJS app no db and nothing else.
+It just has one image, one container and one app within 
+# Deployment approach
+1. SSH into the remote machine 
+2. install docker 
+3. push to repository and pull image
+4. run container based on image on remote host
+
+# Run and test the app
+docker build -t node-dep .
+docker run -d --rm --name node-deploy -p 80:80 node-dep
